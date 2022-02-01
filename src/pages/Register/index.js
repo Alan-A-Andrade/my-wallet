@@ -31,6 +31,17 @@ flex-direction: column;
   margin: 7px 0px ;
 
 }
+
+
+h1{
+  font-style: normal;
+  font-weight: normal;
+  font-size: 15px;
+  line-height: 18px;
+  color: #FFFFFF;
+
+  margin: 0px;
+}
 }
 
 h1{
@@ -113,7 +124,7 @@ function Register() {
         {
           passwordMatch
             ? ""
-            : "senhas não são idênticas"
+            : <h1>Senhas não são idênticas</h1>
         }
         <ButtonStyled
           type="submit"
@@ -121,8 +132,8 @@ function Register() {
           Entrar
         </ButtonStyled>
       </form>
-      <h1 onClick={() => { navigate("/register") }}>
-        Primeira vez? Cadastre-se!
+      <h1 onClick={() => { navigate("/") }}>
+        Já tem uma conta? Entre agora!
       </h1>
     </RegisterStyled >
   )

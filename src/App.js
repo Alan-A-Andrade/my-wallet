@@ -4,10 +4,11 @@ import styled from "styled-components";
 
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Wallet from "./pages/Wallet";
 
 const AppStyle = styled.div`
 
-width: 100%;
+width: 100vw;
 height: 100vh;
 
 display: flex;
@@ -26,8 +27,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          {/* <Route path="/wallet" element={<Wallet />} />
-          <Route path="/registry" element={<Registry />} />
+          <Route path="/wallet" element={<Wallet />} />
+          {/* <Route path="/registry" element={<Registry />} />
           <Route path="/registry/:id" element={<RegistryEdit />} /> */}
         </Routes>
       </BrowserRouter>
