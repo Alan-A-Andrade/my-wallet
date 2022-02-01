@@ -1,24 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import styled from "styled-components";
+
+
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+
+const AppStyle = styled.div`
+
+width: 100%;
+height: 100vh;
+
+display: flex;
+align-items: center;
+justify-content: center;
+flex-direction: column;
+
+padding: 24px 24px 16px 24px;
+
+`
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AppStyle>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          {/* <Route path="/wallet" element={<Wallet />} />
+          <Route path="/registry" element={<Registry />} />
+          <Route path="/registry/:id" element={<RegistryEdit />} /> */}
+        </Routes>
+      </BrowserRouter>
+    </AppStyle>
   );
 }
 
