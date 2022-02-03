@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import styled from "styled-components";
 import { AuthProvider } from "./contexts/AuthContext";
 import { RegistryContextProvider } from "./contexts/RegistryContext";
+import { ReloadContextProvider } from "./contexts/ReloadContext";
 
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -25,19 +26,21 @@ padding: 24px 24px 16px 24px;
 function App() {
   return (
     <AuthProvider>
-      <RegistryContextProvider>
-        <AppStyle>
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/wallet" element={<Wallet />} />
-              <Route path="/registry" element={<Registry />} />
-              {/* <Route path="/registry/:id" element={<RegistryEdit />} /> */}
-            </Routes>
-          </BrowserRouter>
-        </AppStyle>
-      </RegistryContextProvider>
+      <ReloadContextProvider>
+        <RegistryContextProvider>
+          <AppStyle>
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/wallet" element={<Wallet />} />
+                <Route path="/registry" element={<Registry />} />
+                {/* <Route path="/registry/:id" element={<RegistryEdit />} /> */}
+              </Routes>
+            </BrowserRouter>
+          </AppStyle>
+        </RegistryContextProvider>
+      </ReloadContextProvider>
     </AuthProvider>
   );
 }

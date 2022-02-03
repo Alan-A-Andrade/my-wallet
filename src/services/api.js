@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:5000/mywallet';
+const BASE_URL = 'http://10.0.0.107:5000/mywallet';
 
 function createConfig(token) {
   return { headers: { Authorization: `Bearer ${token}` } };
@@ -18,10 +18,26 @@ async function signUp(body) {
   return promise;
 }
 
-function getDailyHistory(token) {
+async function getRegistries(token) {
   const config = createConfig(token);
 
-  const promise = axios.get(`${BASE_URL}/habits/history/daily`, config);
+  const promise = await axios.get(`${BASE_URL}/wallet`, config);
+
+  return promise;
+}
+
+async function deleteRegistry(id, token) {
+  const config = createConfig(token);
+
+  const promise = await axios.delete(`${BASE_URL}/registry/${id}`, config);
+
+  return promise;
+}
+
+async function postRegistry(body, token) {
+  const config = createConfig(token);
+
+  const promise = await axios.post(`${BASE_URL}/registry`, body, config);
 
   return promise;
 }
@@ -34,21 +50,7 @@ function getHabits(token) {
   return promise;
 }
 
-function createHabit(body, token) {
-  const config = createConfig(token);
 
-  const promise = axios.post(`${BASE_URL}/habits`, body, config);
-
-  return promise;
-}
-
-function deleteHabit(id, token) {
-  const config = createConfig(token);
-
-  const promise = axios.delete(`${BASE_URL}/habits/${id}`, config);
-
-  return promise;
-}
 
 function getTodayHabits(token) {
   const config = createConfig(token);
@@ -77,6 +79,9 @@ function uncheckHabit(id, token) {
 const api = {
   login,
   signUp,
+  getRegistries,
+  deleteRegistry,
+  postRegistry,
 }
 
 export default api;

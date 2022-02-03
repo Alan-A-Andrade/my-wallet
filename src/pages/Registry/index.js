@@ -11,6 +11,9 @@ import TitleStyled from "../../components/title";
 import useRegistryType from "../../hooks/useRegistryType";
 import CurrencyInput from 'react-currency-input-field';
 
+import api from "../../services/api";
+import useAuth from "../../hooks/useAuth";
+
 const RegistryStyled = styled.div`
 
 width: 100%;
@@ -56,9 +59,12 @@ function Registry() {
 
   const [formData, setFormData] = useState({ value: "", description: "" })
 
+  const { auth } = useAuth()
+
   const navigate = useNavigate()
 
   const { registryType } = useRegistryType()
+
 
   function handleInputChange(e) {
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -69,9 +75,16 @@ function Registry() {
     setFormData({ ...formData, [name]: value })
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    alert(`vc tentou fazer um ${registryType}Valor: ${formData.value}, descrição: ${formData.description}`)
+
+    try {
+      await api.postRegistry({ ...formData, type: registryType }, auth)
+      navigate("/wallet");
+    }
+    catch {
+      alert(`Um erro ocorreu`)
+    }
   }
 
 
@@ -91,6 +104,7 @@ function Registry() {
           decimalSeparator=","
           groupSeparator="."
           decimalsLimit={2}
+          decimalScale={2}
           onValueChange={(value, name) => handleCustomInputValueChance(value, name)} />
         <InputStyled
           type="text"
