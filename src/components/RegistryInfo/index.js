@@ -3,6 +3,9 @@ import dayjs from "dayjs";
 import api from "../../services/api";
 import useReload from "../../hooks/useReload";
 
+import { useNavigate } from "react-router-dom";
+import useRegistryType from "../../hooks/useRegistryType";
+
 const RegistryInfoStyled = styled.div`
 
 width: 100%;
@@ -51,6 +54,10 @@ function RegistryInfo(props) {
 
   const { reload, setReload } = useReload()
 
+  const { setRegistryType, setRegistryInfo } = useRegistryType()
+
+  const navigate = useNavigate()
+
   async function handleDeleteRegistry(id, token) {
 
     if (window.confirm("Deseja deletar esse registro?")) {
@@ -67,11 +74,18 @@ function RegistryInfo(props) {
     }
   }
 
+  function handleEditRegistry() {
+
+    setRegistryType(props.type)
+    setRegistryInfo({ value: props.value, description: props.description })
+    navigate(`/registry/${props.id}`)
+  }
+
   return (
     <RegistryInfoStyled type={props.type}>
       <div className="wrapper">
         <h1 className="date-display">{dayjs(props.date).format('DD/MM')}</h1>
-        <h1 className="description-display">{props.description}</h1>
+        <h1 onClick={() => handleEditRegistry()} className="description-display">{props.description}</h1>
       </div>
       <div className="wrapper">
         <h1 className="value-display">{props.value}</h1>

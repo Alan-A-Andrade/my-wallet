@@ -34,6 +34,14 @@ async function deleteRegistry(id, token) {
   return promise;
 }
 
+async function editRegistry(id, body, token) {
+  const config = createConfig(token);
+
+  const promise = await axios.put(`${BASE_URL}/registry/${id}`, body, config);
+
+  return promise;
+}
+
 async function postRegistry(body, token) {
   const config = createConfig(token);
 
@@ -82,6 +90,7 @@ const api = {
   getRegistries,
   deleteRegistry,
   postRegistry,
+  editRegistry,
 }
 
 export default api;
