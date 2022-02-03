@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 
 import InputStyled from "../../components/formComponents/input";
 import ButtonStyled from "../../components/formComponents/button";
+import useAuth from "../../hooks/useAuth";
+import api from "../../services/api";
 
 const LoginStyled = styled.div`
 
@@ -47,7 +49,11 @@ h1{
 
 function Login() {
 
+  const { auth, userName, login } = useAuth()
+
   const [formData, setFormData] = useState({ email: "", password: "" })
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate()
 
@@ -55,10 +61,27 @@ function Login() {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    alert(`usuario: ${formData.email}, senha: ${formData.password}`)
-    navigate("/wallet")
+
+    setIsLoading(true);
+    try {
+      const promise = await api.login({ ...formData });
+
+      setIsLoading(false);
+
+      login(promise.data);
+
+      navigate("/wallet");
+
+    } catch {
+      ;
+      setIsLoading(false);
+
+      alert('Erro, tente novamente');
+    };
+
+
   }
 
 

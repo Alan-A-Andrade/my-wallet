@@ -6,6 +6,9 @@ import logOffIcon from "../../assets/logoff.svg"
 import surplusIcon from "../../assets/plussign.svg"
 import deficitIcon from "../../assets/minussign.svg"
 
+import { useNavigate } from "react-router-dom";
+import useRegistryType from "../../hooks/useRegistryType";
+
 const WalletStyled = styled.div`
 
 width: 100%;
@@ -61,7 +64,7 @@ const NoRegistry = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  
+
   font-style: normal;
   font-weight: normal;
   font-size: 20px;
@@ -74,9 +77,13 @@ const NoRegistry = styled.div`
 
 function Wallet() {
 
-  function handleRegistryPost(type) {
+  const { setRegistryType } = useRegistryType()
+  const navigate = useNavigate()
 
-    alert(`Clicou para adicionar um ${type} à Wallet`)
+  function handleRegistryPost(type) {
+    setRegistryType(`${type}`)
+    navigate("/registry")
+
   }
 
   let userRegistries = []

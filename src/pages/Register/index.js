@@ -96,7 +96,8 @@ function Register() {
           onChange={(e) => handleInputChange(e)}
           value={formData.userName}
           disabled={false}
-          required />
+          required
+        />
         <InputStyled
           type="email"
           placeholder="E-mail"

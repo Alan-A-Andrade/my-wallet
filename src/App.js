@@ -1,10 +1,12 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import styled from "styled-components";
-
+import { AuthProvider } from "./contexts/AuthContext";
+import { RegistryContextProvider } from "./contexts/RegistryContext";
 
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Wallet from "./pages/Wallet";
+import Registry from "./pages/Registry";
 
 const AppStyle = styled.div`
 
@@ -22,17 +24,21 @@ padding: 24px 24px 16px 24px;
 
 function App() {
   return (
-    <AppStyle>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/wallet" element={<Wallet />} />
-          {/* <Route path="/registry" element={<Registry />} />
-          <Route path="/registry/:id" element={<RegistryEdit />} /> */}
-        </Routes>
-      </BrowserRouter>
-    </AppStyle>
+    <AuthProvider>
+      <RegistryContextProvider>
+        <AppStyle>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/wallet" element={<Wallet />} />
+              <Route path="/registry" element={<Registry />} />
+              {/* <Route path="/registry/:id" element={<RegistryEdit />} /> */}
+            </Routes>
+          </BrowserRouter>
+        </AppStyle>
+      </RegistryContextProvider>
+    </AuthProvider>
   );
 }
 

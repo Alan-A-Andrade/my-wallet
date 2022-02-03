@@ -23,6 +23,15 @@ pointer-events: ${(props) => props.disabled ? "none" : "all"};
   &::placeholder{
     color: #000000;
   }
+
+  &::-webkit-outer-spin-button,::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  &[type=number] {
+  -moz-appearance: textfield;
+}
 `;
 
 export default InputStyled;
