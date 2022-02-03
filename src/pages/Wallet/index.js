@@ -126,7 +126,7 @@ justify-content: space-between;
 
 function Wallet() {
 
-  const { auth, userName } = useAuth()
+  const { auth, userName, logoff } = useAuth()
   const { reload } = useReload()
 
   const [userWallet, setUserWallet] = useState([])
@@ -183,7 +183,7 @@ function Wallet() {
     <WalletStyled>
       <Header>
         <TitleStyled>Olá, {userName}!</TitleStyled>
-        <img src={logOffIcon} alt="Log out from wallet" />
+        <img onClick={() => { logoff(); navigate("/") }} src={logOffIcon} alt="Log out from wallet" />
       </Header>
       <WalletScreen>
         <div className="registries-wrapper">
