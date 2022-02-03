@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 import InputStyled from "../../components/formComponents/input";
 import ButtonStyled from "../../components/formComponents/button";
 
+import api from "../../services/api";
+
 
 const RegisterStyled = styled.div`
 
@@ -59,9 +61,9 @@ h1{
 
 function Register() {
 
-  const [formData, setFormData] = useState({ userName: "", email: "", password: "", confirmedPassword: "" })
+  const [formData, setFormData] = useState({ username: "", email: "", password: "", confirmedPassword: "" })
   const [passwordMatch, setPasswordMatch] = useState(true)
-  const [isDisabled, setIsDisabled] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate()
 
@@ -72,16 +74,39 @@ function Register() {
 
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
+
     e.preventDefault();
 
     if (formData.password !== formData.confirmedPassword && formData.confirmedPassword !== "") {
+
       setPasswordMatch(false)
+
       return
     }
 
-    alert(`nome:${formData.userName} usuario: ${formData.email}, senha: ${formData.password} senha2: ${formData.confirmedPassword}`)
-    navigate("/wallet")
+    setIsLoading(true);
+    try {
+
+      let registerForm = { ...formData }
+
+      delete registerForm.confirmedPassword
+
+      console.log(registerForm)
+
+      await api.signUp(registerForm);
+
+      setIsLoading(false);
+
+      navigate("/");
+
+    } catch {
+
+      setIsLoading(false);
+
+      alert('Erro, tente novamente');
+      ;
+    }
   }
 
 
@@ -92,10 +117,10 @@ function Register() {
         <InputStyled
           type="text"
           placeholder="Nome"
-          name="userName"
+          name="username"
           onChange={(e) => handleInputChange(e)}
-          value={formData.userName}
-          disabled={false}
+          value={formData.username}
+          disabled={isLoading}
           required
         />
         <InputStyled
@@ -104,7 +129,7 @@ function Register() {
           name="email"
           onChange={(e) => handleInputChange(e)}
           value={formData.email}
-          disabled={false}
+          disabled={isLoading}
           required />
         <InputStyled
           type="password"
@@ -112,7 +137,7 @@ function Register() {
           name="password"
           onChange={(e) => handleInputChange(e)}
           value={formData.password}
-          disabled={false}
+          disabled={isLoading}
           required />
         <InputStyled
           type="password"
@@ -120,7 +145,7 @@ function Register() {
           name="confirmedPassword"
           onChange={(e) => handleInputChange(e)}
           value={formData.confirmedPassword}
-          disabled={false}
+          disabled={isLoading}
           required />
         {
           passwordMatch

@@ -12,8 +12,8 @@ async function login(body) {
   return promise;
 }
 
-function signUp(body) {
-  const promise = axios.post(`${BASE_URL}/auth/sign-up`, body);
+async function signUp(body) {
+  const promise = await axios.post(`${BASE_URL}/sign-up`, body);
 
   return promise;
 }
@@ -76,6 +76,7 @@ function uncheckHabit(id, token) {
 
 const api = {
   login,
+  signUp,
 }
 
 export default api;

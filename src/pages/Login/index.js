@@ -95,7 +95,7 @@ function Login() {
           name="email"
           onChange={(e) => handleInputChange(e)}
           value={formData.email}
-          disabled={false}
+          disabled={isLoading}
           required />
         <InputStyled
           type="password"
@@ -103,11 +103,11 @@ function Login() {
           name="password"
           onChange={(e) => handleInputChange(e)}
           value={formData.password}
-          disabled={false}
+          disabled={isLoading}
           required />
         <ButtonStyled
           type="submit"
-          disabled={false}>
+          disabled={isLoading}>
           Entrar
         </ButtonStyled>
       </form>
