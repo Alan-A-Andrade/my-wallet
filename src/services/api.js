@@ -50,39 +50,6 @@ async function postRegistry(body, token) {
   return promise;
 }
 
-function getHabits(token) {
-  const config = createConfig(token);
-
-  const promise = axios.get(`${BASE_URL}/habits`, config);
-
-  return promise;
-}
-
-
-
-function getTodayHabits(token) {
-  const config = createConfig(token);
-
-  const promise = axios.get(`${BASE_URL}/habits/today`, config);
-
-  return promise;
-}
-
-function checkHabit(id, token) {
-  const config = createConfig(token);
-
-  const promise = axios.post(`${BASE_URL}/habits/${id}/check`, null, config);
-
-  return promise;
-}
-
-function uncheckHabit(id, token) {
-  const config = createConfig(token);
-
-  const promise = axios.post(`${BASE_URL}/habits/${id}/uncheck`, null, config);
-
-  return promise;
-}
 
 const api = {
   login,

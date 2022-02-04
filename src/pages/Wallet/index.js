@@ -159,18 +159,18 @@ function Wallet() {
     let total = 0
     for (let i = 0; i < array.length; i++) {
       if (array[i].type === "surplus") {
-        total += parseInt(array[i].value.replace(",", ''));
+        total += parseFloat(array[i].value.replace(",", '.'));
       }
       else {
-        total -= parseInt(array[i].value.replace(",", ''));
+        total -= parseFloat(array[i].value.replace(",", '.'));
       }
     }
     let type = "deficit"
     if (total > 0) {
       type = "surplus"
     }
-    let totalLength = total.toString().split("").length
-    total = total.toString().slice(0, totalLength - 2) + "," + total.toString().slice(-2)
+
+    total = total.toFixed(2).replace(".", ",")
     let obj = {
       total: total,
       type: type
@@ -202,7 +202,7 @@ function Wallet() {
         <div className="registries-wrapper">
           {userWallet.length !== 0
             ? <WalletTotal type={auxSum(userWallet).type}>
-              <h1 className="total-title">Total</h1>
+              <h1 className="total-title">Saldo</h1>
               <h1 className="total-value-display">{auxSum(userWallet).total}</h1>
             </WalletTotal>
             : ""

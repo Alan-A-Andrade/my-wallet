@@ -92,8 +92,6 @@ function Register() {
 
       delete registerForm.confirmedPassword
 
-      console.log(registerForm)
-
       await api.signUp(registerForm);
 
       setIsLoading(false);
