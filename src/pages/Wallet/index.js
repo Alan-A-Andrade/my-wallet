@@ -15,6 +15,7 @@ import { useState, useEffect } from "react";
 import api from "../../services/api";
 import useReload from "../../hooks/useReload";
 import { Bars } from "react-loader-spinner";
+import Swal from "sweetalert2";
 
 const WalletStyled = styled.div`
 
@@ -157,7 +158,14 @@ function Wallet() {
       setUserWallet(promise.data)
 
     } catch {
-      alert("Um erro ocorreu")
+      Swal.fire({
+        title: 'Desculpa :(',
+        text: 'Problema de conexão com servidor',
+        background: "#8C11BE",
+        color: "#fff"
+      }
+      )
+      logoff()
       navigate("/")
 
     }

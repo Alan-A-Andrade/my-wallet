@@ -5,6 +5,7 @@ import useReload from "../../hooks/useReload";
 
 import { useNavigate } from "react-router-dom";
 import useRegistryType from "../../hooks/useRegistryType";
+import Swal from "sweetalert2";
 
 const RegistryInfoStyled = styled.div`
 
@@ -58,20 +59,37 @@ function RegistryInfo(props) {
 
   const navigate = useNavigate()
 
-  async function handleDeleteRegistry(id, token) {
+  function handleDeleteRegistry(id, token) {
 
-    if (window.confirm("Deseja deletar esse registro?")) {
+    Swal.fire({
+      title: 'Tem certeza?',
+      text: "Não será possível reverter!",
+      cancelButtonText: "Cancelar",
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sim, exclua esse registro!',
+      background: "#8C11BE",
+      color: "#fff"
+    }).then(async (result) => {
+      if (result.isConfirmed) {
 
-      try {
-        await api.deleteRegistry(id, token)
-        setReload([!reload[0]])
-      } catch {
-        alert("Um erro ocorreu")
+        try {
+          await api.deleteRegistry(id, token)
+          setReload([!reload[0]])
+        } catch {
+          Swal.fire({
+            title: 'Desculpa :(',
+            text: 'Problema de conexão com servidor',
+            background: "#8C11BE",
+            color: "#fff"
+          }
+          )
+        }
+
+
       }
-    }
-    else {
-      return
-    }
+    })
   }
 
   function handleEditRegistry() {

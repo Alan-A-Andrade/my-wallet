@@ -14,6 +14,7 @@ import api from "../../services/api";
 import useAuth from "../../hooks/useAuth";
 
 import { Bars } from "react-loader-spinner";
+import Swal from "sweetalert2";
 
 const RegistryStyled = styled.div`
 
@@ -92,7 +93,13 @@ function RegistryEdit() {
       navigate("/wallet");
     }
     catch {
-      alert(`Um erro ocorreu`)
+      Swal.fire({
+        title: 'Desculpa :(',
+        text: 'Problema de conexão com servidor',
+        background: "#8C11BE",
+        color: "#fff"
+      }
+      )
     }
     setIsLoading(false)
   }

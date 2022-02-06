@@ -10,6 +10,7 @@ import ButtonStyled from "../../components/formComponents/button";
 import { Bars } from "react-loader-spinner";
 
 import api from "../../services/api";
+import Swal from "sweetalert2";
 
 
 const RegisterStyled = styled.div`
@@ -111,15 +112,12 @@ function Register() {
 
   function handleInputChange(e) {
 
-    checkRegex()
-
     setFormData({ ...formData, [e.target.name]: e.target.value })
 
     setPasswordMatch(true)
 
     setUserDuplicated(true)
 
-    checkRegex()
 
   }
 
@@ -170,7 +168,15 @@ function Register() {
       if (error.response.data === "Conflict") {
         setUserDuplicated(false)
       }
-
+      else {
+        Swal.fire({
+          title: 'Desculpa :(',
+          text: 'Problema de conexão com servidor',
+          background: "#8C11BE",
+          color: "#fff"
+        }
+        )
+      }
       setIsLoading(false);
 
     }
@@ -212,6 +218,7 @@ function Register() {
           disabled={isLoading}
           onFocus={onFocus}
           onBlur={onBlur}
+          pattern={/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,16}$/}
           required />
         {focused
           ? <div className="password-wrapper-text"><h1>Senha precisa ter:{<br />}</h1>

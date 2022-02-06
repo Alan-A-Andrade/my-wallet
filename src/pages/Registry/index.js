@@ -13,6 +13,7 @@ import api from "../../services/api";
 import useAuth from "../../hooks/useAuth";
 
 import { Bars } from "react-loader-spinner";
+import Swal from "sweetalert2";
 
 
 
@@ -88,7 +89,13 @@ function Registry() {
       navigate("/wallet");
     }
     catch {
-      alert(`Um erro ocorreu`)
+      Swal.fire({
+        title: 'Desculpa :(',
+        text: 'Problema de conexão com servidor',
+        background: "#8C11BE",
+        color: "#fff"
+      }
+      )
     }
     setIsLoading(false)
   }
@@ -111,6 +118,7 @@ function Registry() {
           groupSeparator="."
           decimalsLimit={2}
           decimalScale={2}
+          required
           onValueChange={(value, name) => handleCustomInputValueChance(value, name)}
           disabled={isLoading} />
         <InputStyled
