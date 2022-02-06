@@ -1,13 +1,15 @@
 import logoIcon from "../../assets/MyWallet.svg"
 
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import InputStyled from "../../components/formComponents/input";
 import ButtonStyled from "../../components/formComponents/button";
 import useAuth from "../../hooks/useAuth";
 import api from "../../services/api";
+
+import { Bars } from "react-loader-spinner";
 
 const LoginStyled = styled.div`
 
@@ -49,13 +51,19 @@ h1{
 
 function Login() {
 
-  const { auth, userName, login } = useAuth()
+  const { auth, login } = useAuth()
 
   const [formData, setFormData] = useState({ email: "", password: "" })
 
   const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate()
+
+  useEffect(() => {
+    if (auth) {
+      navigate("/wallet");
+    }
+  }, []);
 
   function handleInputChange(e) {
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -108,7 +116,7 @@ function Login() {
         <ButtonStyled
           type="submit"
           disabled={isLoading}>
-          Entrar
+          {isLoading ? <Bars color="#ffffff" height="32px" /> : "Entrar"}
         </ButtonStyled>
       </form>
       <h1 onClick={() => { navigate("/register") }}>

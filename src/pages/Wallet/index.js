@@ -14,6 +14,7 @@ import { useState, useEffect } from "react";
 
 import api from "../../services/api";
 import useReload from "../../hooks/useReload";
+import { Bars } from "react-loader-spinner";
 
 const WalletStyled = styled.div`
 
@@ -55,7 +56,7 @@ margin-top: 15px;
 
 const WalletScreen = styled.main`
 width: 100%;
-height: 100%;
+height: calc(100vh - 220px);
 
 display: flex;
 justify-content: space-between;
@@ -68,13 +69,21 @@ background: #FFFFFF;
 border-radius: 5px;
 
 .registries-wrapper{
-
+  width: 100%;
   overflow-y: scroll;
-  max-height: 25em;
 
   &:first-child{
     padding-top: 23px;
   }
+}
+
+.loader-wrapper{
+  width: 100%;
+  height: calc(100vh - 220px);
+  display: flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction: column;
 }
 
 `
@@ -102,6 +111,7 @@ width: 100%;
 display: flex;
 align-items: center;
 justify-content: space-between;
+padding-top: 1em;
 
 .total-title{
   font-style: normal;
@@ -128,6 +138,7 @@ function Wallet() {
 
   const { auth, userName, logoff } = useAuth()
   const { reload } = useReload()
+  const [isLoading, setIsLoading] = useState(false);
 
   const [userWallet, setUserWallet] = useState([])
   const { setRegistryType } = useRegistryType()
@@ -140,18 +151,24 @@ function Wallet() {
   }
 
   async function handleWallet(token) {
+    setIsLoading(true)
     try {
       const promise = await api.getRegistries(token)
-
       setUserWallet(promise.data)
 
     } catch {
       alert("Um erro ocorreu")
+
     }
+    setIsLoading(false)
   }
 
-  useEffect(() => {
-    handleWallet(auth)
+
+  useEffect(async () => {
+    setUserWallet([])
+    setIsLoading(true)
+    await handleWallet(auth)
+    setIsLoading(false)
   }, reload);
 
 
@@ -166,7 +183,7 @@ function Wallet() {
       }
     }
     let type = "deficit"
-    if (total > 0) {
+    if (total >= 0) {
       type = "surplus"
     }
 
@@ -186,9 +203,10 @@ function Wallet() {
         <img onClick={() => { logoff(); navigate("/") }} src={logOffIcon} alt="Log out from wallet" />
       </Header>
       <WalletScreen>
+        {isLoading && <div className="loader-wrapper"><Bars color="#8C11BE" /></div>}
         <div className="registries-wrapper">
-          {userWallet.length !== 0
-            ? userWallet.map((el, id) =>
+          {userWallet.length !== 0 &&
+            userWallet.map((el, id) =>
               <RegistryInfo
                 key={id}
                 date={el.date}
@@ -196,18 +214,19 @@ function Wallet() {
                 description={el.description}
                 type={el.type}
                 id={el._id}
-                token={auth} />)
-            : <NoRegistry><h1>Não há registros de entrada ou saída</h1></NoRegistry>}
-        </div>
-        <div className="registries-wrapper">
-          {userWallet.length !== 0
-            ? <WalletTotal type={auxSum(userWallet).type}>
-              <h1 className="total-title">Saldo</h1>
-              <h1 className="total-value-display">{auxSum(userWallet).total}</h1>
-            </WalletTotal>
-            : ""
+                token={auth} />
+            )
           }
         </div>
+        {userWallet.length !== 0 &&
+          <WalletTotal type={auxSum(userWallet).type}>
+            <h1 className="total-title">Saldo</h1>
+            <h1 className="total-value-display">{auxSum(userWallet).total}</h1>
+          </WalletTotal>
+        }
+        {userWallet.length === 0 && !isLoading &&
+          <NoRegistry><h1>Não há registros de entrada ou saída</h1></NoRegistry>
+        }
       </WalletScreen>
       <Footer>
         <RegistryStyled onClick={() => handleRegistryPost("surplus")} >

@@ -13,6 +13,8 @@ import CurrencyInput from 'react-currency-input-field';
 import api from "../../services/api";
 import useAuth from "../../hooks/useAuth";
 
+import { Bars } from "react-loader-spinner";
+
 const RegistryStyled = styled.div`
 
 width: 100%;
@@ -71,6 +73,8 @@ function RegistryEdit() {
 
   const { id } = useParams();
 
+  const [isLoading, setIsLoading] = useState(false);
+
   function handleInputChange(e) {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
@@ -82,7 +86,7 @@ function RegistryEdit() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-
+    setIsLoading(true)
     try {
       await api.editRegistry(id, { ...formData, type: registryType }, auth)
       navigate("/wallet");
@@ -90,6 +94,7 @@ function RegistryEdit() {
     catch {
       alert(`Um erro ocorreu`)
     }
+    setIsLoading(false)
   }
 
 
@@ -110,21 +115,24 @@ function RegistryEdit() {
           groupSeparator="."
           decimalsLimit={2}
           decimalScale={2}
-          onValueChange={(value, name) => handleCustomInputValueChance(value, name)} />
+          onValueChange={(value, name) => handleCustomInputValueChance(value, name)}
+          disabled={isLoading} />
         <InputStyled
           type="text"
           placeholder="Descrição"
           name="description"
           onChange={(e) => handleInputChange(e)}
           value={formData.description}
-          disabled={false}
+          disabled={isLoading}
           required />
         <ButtonStyled
           type="submit"
-          disabled={false}>
-          {registryType === "surplus"
-            ? "Atualizar entrada"
-            : "Atualizar saída"
+          disabled={isLoading}>
+          {isLoading
+            ? <Bars color="#ffffff" height="32px" />
+            : registryType === "surplus"
+              ? "Atualizar entrada"
+              : "Atualizar saída"
           }
         </ButtonStyled>
       </form>

@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 import InputStyled from "../../components/formComponents/input";
 import ButtonStyled from "../../components/formComponents/button";
 
+import { Bars } from "react-loader-spinner";
+
 import api from "../../services/api";
 
 
@@ -152,8 +154,8 @@ function Register() {
         }
         <ButtonStyled
           type="submit"
-          disabled={false}>
-          Entrar
+          disabled={isLoading}>
+          {isLoading ? <Bars color="#ffffff" height="32px" /> : "Cadastrar"}
         </ButtonStyled>
       </form>
       <h1 onClick={() => { navigate("/") }}>

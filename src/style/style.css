@@ -4,6 +4,9 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box !important;
+  font-family: 'Raleway', sans-serif !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
 }
 
 body,
