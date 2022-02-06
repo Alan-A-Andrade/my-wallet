@@ -27,6 +27,12 @@ align-items: center;
 justify-content: space-between;
 flex-direction: column;
 
+pointer-events: ${props =>
+    props.pointerEvents
+      ? "none"
+      : "auto"
+  };
+
 `;
 
 const Header = styled.header`
@@ -206,7 +212,7 @@ function Wallet() {
 
 
   return (
-    <WalletStyled>
+    <WalletStyled pointerEvents={isLoading}>
       <Header>
         <TitleStyled>Olá, {userName}!</TitleStyled>
         <img onClick={() => { logoff(); navigate("/") }} src={logOffIcon} alt="Log out from wallet" />
