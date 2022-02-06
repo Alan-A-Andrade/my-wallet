@@ -127,6 +127,7 @@ function Register() {
   const regexNoWhiteSpace = /[\s]/
   const regexPasswordLength = /^.{8,16}$/
   const regexSpecialChar = /[^\w\d\s:]/
+  const regex = /^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,16}$/
 
   function checkRegex() {
     setRegUC(regexUpperCase.test(formData.password))
@@ -145,6 +146,11 @@ function Register() {
 
       setPasswordMatch(false)
 
+      return
+    }
+
+    if (!regex.test(formData.password)) {
+      setFocused(true)
       return
     }
 
@@ -218,7 +224,6 @@ function Register() {
           disabled={isLoading}
           onFocus={onFocus}
           onBlur={onBlur}
-          pattern={/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,16}$/}
           required />
         {focused
           ? <div className="password-wrapper-text"><h1>Senha precisa ter:{<br />}</h1>

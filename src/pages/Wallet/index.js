@@ -28,7 +28,7 @@ justify-content: space-between;
 flex-direction: column;
 
 pointer-events: ${props =>
-    props.pointerEvents
+    props.disable
       ? "none"
       : "auto"
   };
@@ -212,7 +212,7 @@ function Wallet() {
 
 
   return (
-    <WalletStyled pointerEvents={isLoading}>
+    <WalletStyled disable={isLoading}>
       <Header>
         <TitleStyled>Olá, {userName}!</TitleStyled>
         <img onClick={() => { logoff(); navigate("/") }} src={logOffIcon} alt="Log out from wallet" />
