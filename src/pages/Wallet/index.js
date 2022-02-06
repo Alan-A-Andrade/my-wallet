@@ -158,6 +158,7 @@ function Wallet() {
 
     } catch {
       alert("Um erro ocorreu")
+      navigate("/")
 
     }
     setIsLoading(false)

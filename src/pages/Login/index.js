@@ -34,6 +34,19 @@ flex-direction: column;
   margin: 7px 0px ;
 
 }
+
+.login-error-msg{
+  font-style: normal;
+  font-weight: bold;
+  font-size: 15px;
+  line-height: 18px;
+  color: #FFFFFF;
+
+  margin-top: 0px;
+
+
+}
+
 }
 
 h1{
@@ -57,6 +70,8 @@ function Login() {
 
   const [isLoading, setIsLoading] = useState(false);
 
+  const [failedLogin, setFailedLogin] = useState(true)
+
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -66,6 +81,7 @@ function Login() {
   }, []);
 
   function handleInputChange(e) {
+    setFailedLogin(true)
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
@@ -82,11 +98,16 @@ function Login() {
 
       navigate("/wallet");
 
-    } catch {
-      ;
+    } catch (error) {
+
       setIsLoading(false);
 
-      alert('Erro, tente novamente');
+      if (error.response.data === "Unauthorized") {
+        setFailedLogin(false)
+      }
+      else {
+        alert('Erro, tente novamente');
+      }
     };
 
 
@@ -118,6 +139,11 @@ function Login() {
           disabled={isLoading}>
           {isLoading ? <Bars color="#ffffff" height="32px" /> : "Entrar"}
         </ButtonStyled>
+        {
+          failedLogin
+            ? ""
+            : <h1 className="login-error-msg">Usuário/Senha incorreto(s)</h1>
+        }
       </form>
       <h1 onClick={() => { navigate("/register") }}>
         Primeira vez? Cadastre-se!
