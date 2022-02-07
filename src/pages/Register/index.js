@@ -76,7 +76,7 @@ h1{
 
 const ValidPassword = styled.h1`
   font-style: normal;
-  font-weight: bolder !important;
+  font-weight: normal !important;
   font-size: 14px !important;
   line-height: 18px;
   color: ${props =>
@@ -227,11 +227,11 @@ function Register() {
           required />
         {focused
           ? <div className="password-wrapper-text"><h1>Senha precisa ter:{<br />}</h1>
-            <ValidPassword isValid={regNum}> • ao menos um número {<br />}</ValidPassword>
-            <ValidPassword isValid={regUC}> • ao menos uma letra Maiúscula{<br />}</ValidPassword>
-            <ValidPassword isValid={regLC}> • ao menos uma letra minúscula{<br />}</ValidPassword>
-            <ValidPassword isValid={regSC}> • ao menos um caractere especial</ValidPassword>
-            <ValidPassword isValid={regPassWordLength}> • tamanho entre 8 a 16 caracteres sem espaço</ValidPassword></div>
+            <ValidPassword isValid={regNum}> • ao menos um número {regNum ? " ✅" : ""} {<br />}</ValidPassword>
+            <ValidPassword isValid={regUC}> • ao menos uma letra Maiúscula{regUC ? " ✅" : ""} {<br />}</ValidPassword>
+            <ValidPassword isValid={regLC}> • ao menos uma letra minúscula{regLC ? " ✅" : ""} {<br />}</ValidPassword>
+            <ValidPassword isValid={regSC}> • ao menos um caractere especial{regSC ? " ✅" : ""} {<br />}</ValidPassword>
+            <ValidPassword isValid={regPassWordLength}> • tamanho entre 8 a 16 caracteres sem espaço{regPassWordLength ? " ✅" : ""} {<br />}</ValidPassword></div>
           : ""}
         <InputStyled
           type="password"
