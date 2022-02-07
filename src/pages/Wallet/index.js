@@ -210,12 +210,31 @@ function Wallet() {
     return obj
   }
 
+  function handleLogOff() {
+    Swal.fire({
+      title: 'Deseja sair?',
+      cancelButtonText: "Não",
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sim!',
+      background: "#8C11BE",
+      color: "#fff"
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+
+        logoff();
+        navigate("/")
+      }
+    })
+  }
+
 
   return (
     <WalletStyled disable={isLoading}>
       <Header>
         <TitleStyled>Olá, {userName}!</TitleStyled>
-        <img onClick={() => { logoff(); navigate("/") }} src={logOffIcon} alt="Log out from wallet" />
+        <img onClick={handleLogOff} src={logOffIcon} alt="Log out from wallet" />
       </Header>
       <WalletScreen>
         {isLoading && <div className="loader-wrapper"><Bars color="#8C11BE" /></div>}
